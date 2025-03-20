@@ -3,6 +3,8 @@ package pp.libraryManager.service;
 import org.springframework.stereotype.Service;
 import pp.libraryManager.DTOs.BookDTO;
 import pp.libraryManager.DTOs.BorrowDTO;
+import pp.libraryManager.controllers.BorrowController;
+import pp.libraryManager.converters.BorrowConverter;
 import pp.libraryManager.entities.Book;
 import pp.libraryManager.entities.Borrow;
 import pp.libraryManager.repositories.BookRepository;
@@ -16,6 +18,7 @@ import java.util.List;
 public class BorrowService {
 
     private BorrowRepository borrowRepository;
+    private BorrowConverter borrowConverter;
     public BorrowService(BorrowRepository borrowRepository, UserRepository userRepository) {
         this.borrowRepository = borrowRepository;
     }
@@ -24,7 +27,7 @@ public class BorrowService {
         List<Borrow> borrows = (List<Borrow>) this.borrowRepository.findAll();
         List<BorrowDTO> borrowDtoList = new ArrayList<>();
         for(Borrow borrow : borrows){
-            borrowDtoList.add(new BorrowDTO(borrow.getId_user(), borrow.getId_book(), borrow.getBorrow_date(), borrow.getDeliver_date()));
+            borrowDtoList.add(borrowConverter.toDTO(borrow));
         }
         return borrowDtoList;
     }

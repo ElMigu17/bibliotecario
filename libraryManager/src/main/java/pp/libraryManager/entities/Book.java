@@ -20,9 +20,4 @@ public class Book {
     @Column(name="author", nullable=false)
     private String author;
 
-    public Book(BookDTO bookDTO){
-        this.id = bookDTO.getId();
-        this.title = bookDTO.getTitle();
-        this.author = bookDTO.getAuthor();
-    }
 }

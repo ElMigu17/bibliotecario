@@ -4,12 +4,8 @@ package pp.libraryManager.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pp.libraryManager.DTOs.BookDTO;
-import pp.libraryManager.DTOs.BorrowDTO;
 import pp.libraryManager.DTOs.UserDTO;
-import pp.libraryManager.entities.Book;
 import pp.libraryManager.entities.User;
-import pp.libraryManager.service.BorrowService;
 import pp.libraryManager.service.UserService;
 
 import java.util.List;

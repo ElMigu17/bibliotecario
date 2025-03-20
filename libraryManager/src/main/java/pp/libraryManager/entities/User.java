@@ -2,11 +2,13 @@ package pp.libraryManager.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pp.libraryManager.DTOs.UserDTO;
 
 @Entity
 @Table(name = "user")
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
