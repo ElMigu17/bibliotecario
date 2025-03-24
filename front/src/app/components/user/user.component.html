@@ -1,9 +1,9 @@
 <div class="center-content">
 
     <button (click)="showModel = !showModel">Criar novo usuário</button>
-
-    <ag-grid-angular class="table" [columnDefs]="colDefs" [rowData]="rowData" [defaultColDef]="defaultColDef" />
-
+    @if (showGrid) {
+        <ag-grid-angular class="table" [columnDefs]="colDefs" [rowData]="rowData" [defaultColDef]="defaultColDef" />
+    }
     <div *ngIf="showModel" class="background-form">
         <div class="background-color" (click)="showModel = !showModel">
 

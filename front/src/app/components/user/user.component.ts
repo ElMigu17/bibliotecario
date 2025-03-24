@@ -1,38 +1,27 @@
-import { Component, OnInit, signal } from '@angular/core';
-import type { ColDef } from "ag-grid-community";
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { UserServiceService } from "../../services/user/user-service.service"
-import { ReactiveFormsModule } from '@angular/forms';
-import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
-import { CommonModule } from '@angular/common';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { Component, OnInit, Inject, PLATFORM_ID, AfterViewInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AllCommunityModule, ColDef, ModuleRegistry } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import { UserServiceService } from "../../services/user/user-service.service";
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-user',
-  imports: [ReactiveFormsModule, AgGridAngular, CommonModule, NgxMaskDirective, NgxMaskPipe],
+  imports: [ReactiveFormsModule, AgGridAngular, CommonModule, NgxMaskDirective],
+  providers: [          provideNgxMask(),
+],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewInit {
   userForm: FormGroup;
   rowData: Array<Object> = [];
   showModel: Boolean = false;
-
-  constructor(
-    private userServiceService: UserServiceService,
-    private fb: FormBuilder
-  ) {
-
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      cpf: ['', Validators.required],
-    });
-  };
+  isBrowser = false;
+  showGrid = false;
 
   defaultColDef = {
     flex: 1,
@@ -47,10 +36,29 @@ export class UserComponent implements OnInit {
     { field: "cpf", width: 200 },
   ];
 
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private userServiceService: UserServiceService,
+    private fb: FormBuilder
+  ) {
+    this.userForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      cpf: ['', Validators.required],
+    });
+    this.isBrowser = isPlatformBrowser(platformId);
+
+  };
+
   ngOnInit() {
     this.updateUsersTable();
   }
 
+  ngAfterViewInit() {
+    if (this.isBrowser) {
+      setTimeout(() => {this.showGrid = true}, 100);
+    }
+  }
   updateUsersTable() {
     this.userServiceService.getUsers().subscribe((users) => {
       this.rowData = users;
@@ -62,15 +70,19 @@ export class UserComponent implements OnInit {
 
       this.userServiceService.postUser(this.userForm.value).subscribe((a) => {
         this.showModel = !this.showModel;
-        this.userForm = this.fb.group({
-          name: ['', Validators.required],
-          email: ['', [Validators.required, Validators.email]],
-          cpf: ['', Validators.required],
-        });
+        this.setBlankUseForm();
         this.updateUsersTable();
       });
     }
 
+  }
+
+  setBlankUseForm(){
+    this.userForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      cpf: ['', Validators.required],
+    });
   }
 }
 

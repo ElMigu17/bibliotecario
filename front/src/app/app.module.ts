@@ -5,7 +5,6 @@ import { UserComponent } from './components/user/user.component'
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 
 // Register all Community features
@@ -19,11 +18,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     imports: [
         BrowserModule, 
         ReactiveFormsModule, 
-        ModuleRegistry,
-        NgxMaskDirective
+        ModuleRegistry
     ],
     providers: [
-        provideNgxMask({ /* opções de cfg */ })
     ],
     bootstrap: [AppComponent],
 })
