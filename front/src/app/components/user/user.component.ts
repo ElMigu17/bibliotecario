@@ -61,10 +61,8 @@ export class UserComponent implements OnInit {
 
   onSubmit(): void{
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
 
       this.userServiceService.postUser(this.userForm.value).subscribe((a) => {
-        console.log(a);
         this.showModel = !this.showModel;
         this.userForm = this.fb.group({
           name: ['', Validators.required],
@@ -75,8 +73,6 @@ export class UserComponent implements OnInit {
       });
     }
     
-  
-    console.log()
   }
 }
 

@@ -14,14 +14,11 @@ export class UserServiceService {
   // Method to get all users
   getUsers(): Observable<any[]> {
     let a = this.http.get<any[]>(this.apiUrl);
-    console.log(a);
     return a;
   }
   
   postUser(user: any): Observable<any[]> {
-    console.log(user);
     let a = this.http.post<any[]>(this.apiUrl, user);
-    console.log(a);
     return a;
   }
 }
