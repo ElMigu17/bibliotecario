@@ -18,8 +18,10 @@ import java.util.List;
 public class BorrowService {
 
     private BorrowRepository borrowRepository;
-    private BorrowConverter borrowConverter;
-    public BorrowService(BorrowRepository borrowRepository, UserRepository userRepository) {
+    private UserService userService;
+    private BookService bookService;
+
+    public BorrowService(BorrowRepository borrowRepository) {
         this.borrowRepository = borrowRepository;
     }
 
@@ -27,63 +29,23 @@ public class BorrowService {
         List<Borrow> borrows = (List<Borrow>) this.borrowRepository.findAll();
         List<BorrowDTO> borrowDtoList = new ArrayList<>();
         for(Borrow borrow : borrows){
-            borrowDtoList.add(borrowConverter.toDTO(borrow));
+            borrowDtoList.add(BorrowConverter.toDTO(borrow));
         }
         return borrowDtoList;
     }
-/*
-    public Empresa addOneEmpresa(EmpresaDto empresaDto) {
-        Empresa empresa = new Empresa(empresaDto);
-        if(empresaDto.getFornecedores() == null) {
-            return this.empresaRepository.save(empresa);
-        }
-        List<Fornecedor> fornecedoresList = (List<Fornecedor>) fornecedorRepository.findAllById(empresaDto.getFornecedores());
 
-        empresa.setFornecedor(fornecedoresList);
-        String errors = this.validateFornecedor(empresa);
-        if(!errors.isEmpty()){
-            throw new IllegalArgumentException(errors);
-        }
-        return this.empresaRepository.save(empresa);
-    }
+    public Borrow addOneBorrow(BorrowDTO borrowDTO) {
+        Borrow borrow = new Borrow();
+        borrow.setUser(userService.findOneUser(borrowDTO.getUser().getId()));
+        borrow.setBook(bookService.findOneBook(borrowDTO.getBook().getId()));
+        borrow.setBorrow_date(borrowDTO.getBorrow_date());
+        borrow.setDeliver_date(borrowDTO.getDeliver_date());
 
-    private String validateFornecedor(Empresa empresa){
-        String errors = "";
-
-        if(this.checkIfCNPJIsUsed(empresa.getCNPJ(), empresa.getId())){
-            errors += "Esse CNPJ já está sendo usado \n";
-        }
-
-
-        if(empresa.getEstado().equals("Paraná")){
-            Date now = new Date();
-            for(Fornecedor fornecedor : empresa.getFornecedor()){
-                if(!fornecedor.getIs_pessoa_fisica()){
-                    continue;
-                }
-                long ageInMilisecond = fornecedor.getData_nascimento().getTime() - now.getTime();
-                if(adulthoodInMilisecond > ageInMilisecond){
-                    errors += "Devido ao fato de a empresa ser do Paraná, ela não pode ter um fornecedor com menos de 18 anos \n";
-                    break;
-                }
-            }
-        }
-
-
-        return errors;
-    }
-
-    public boolean checkIfCNPJIsUsed(String cnpj, Integer id){
-        List<Empresa> empresas = this.empresaRepository.findByCNPJ(cnpj);
-
-        return !(this.fornecedorRepository.findByCNPJ(cnpj).isEmpty() &&
-                (empresas.isEmpty() || empresas.get(0).getId() == id));
+        return this.borrowRepository.save(borrow);
     }
 
     public void deleteById(Integer id) {
-        this.empresaRepository.deleteById(id);
+        this.borrowRepository.deleteById(id);
     }
-
- */
 
 }

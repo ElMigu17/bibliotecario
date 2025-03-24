@@ -2,7 +2,6 @@ package pp.libraryManager.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import pp.libraryManager.DTOs.BookDTO;
 
 @Entity
 @Table(name = "book")
@@ -10,8 +9,8 @@ import pp.libraryManager.DTOs.BookDTO;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
+    @SequenceGenerator(name = "book_generator", sequenceName = "book_seq", allocationSize = 1)
     @Column(name="id", nullable=false)
     private Integer id;
 

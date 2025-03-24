@@ -21,7 +21,6 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
-    private UserConverter userConverter;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -31,19 +30,26 @@ public class UserService {
         List<User> users = (List<User>) this.userRepository.findAll();
         List<UserDTO> userDtoList = new ArrayList<>();
         for (User user : users) {
-            userDtoList.add(userConverter.toDTO(user));
+            userDtoList.add(UserConverter.toDTO(user));
         }
         return userDtoList;
     }
 
-    public User findOneBook(Integer id) {
+    public User findOneUser(Integer id) {
         Optional<User> user = this.userRepository.findById(id);
         return user.orElse(null);
     }
 
     public User addOneBook(UserDTO userDto) {
-        User user = new User(userDto);
+        User user = new User();
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setCpf(userDto.getCpf());
 
         return this.userRepository.save(user);
+    }
+
+    public void deleteById(Integer id) {
+        this.userRepository.deleteById(id);
     }
 }

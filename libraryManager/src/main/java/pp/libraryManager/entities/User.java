@@ -2,13 +2,10 @@ package pp.libraryManager.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import pp.libraryManager.DTOs.UserDTO;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 @Data
-@NoArgsConstructor
 public class User {
 
     @Id
@@ -24,10 +21,4 @@ public class User {
     @Column(name="cpf", nullable=false)
     private String cpf;
 
-    public User(UserDTO userDto){
-        this.id = userDto.getId();
-        this.name = userDto.getName();
-        this.email = userDto.getEmail();
-        this.cpf = userDto.getCpf();
-    }
 }

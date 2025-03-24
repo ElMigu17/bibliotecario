@@ -35,10 +35,4 @@ public class Borrow {
     @Column(name="deliver_date", nullable=false)
     private Date deliver_date;
 
-    public Borrow(BorrowDTO borrowDto, User user, Book book){
-        this.user = user;
-        this.book = book;
-        this.borrow_date = borrowDto.getBorrow_date();
-        this.deliver_date = borrowDto.getDeliver_date();
-    }
 }

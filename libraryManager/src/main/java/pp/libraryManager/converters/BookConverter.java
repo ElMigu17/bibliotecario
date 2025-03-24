@@ -5,7 +5,7 @@ import pp.libraryManager.entities.Book;
 
 public class BookConverter {
 
-    public Book toEntity (BookDTO bookDTO){
+    public static Book toEntity (BookDTO bookDTO){
         Book book= new Book();
 
         book.setId(bookDTO.getId());
@@ -15,7 +15,7 @@ public class BookConverter {
         return book;
     }
 
-    public BookDTO toDTO (Book book){
+    public static BookDTO toDTO (Book book){
         BookDTO bookDTO= new BookDTO();
 
         bookDTO.setId(book.getId());

@@ -1,13 +1,13 @@
 package pp.libraryManager.converters;
 
-import pp.libraryManager.DTOs.BookDTO;
+import org.springframework.stereotype.Component;
 import pp.libraryManager.DTOs.UserDTO;
-import pp.libraryManager.entities.Book;
 import pp.libraryManager.entities.User;
+
 
 public class UserConverter {
 
-    public User toEntity (UserDTO userDTO){
+    public static User toEntity (UserDTO userDTO){
         User user = new User();
 
         user.setId(userDTO.getId());
@@ -18,7 +18,7 @@ public class UserConverter {
         return user;
     }
 
-    public UserDTO toDTO (User user){
+    public static UserDTO toDTO (User user){
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
