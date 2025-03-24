@@ -5,18 +5,21 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import {UserServiceService} from "../../services/user/user-service.service"
 import { ReactiveFormsModule } from '@angular/forms';
-import { User } from '../../model/user.model';
+import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
+import { CommonModule } from '@angular/common';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-user',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AgGridAngular, CommonModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit {
   userForm: FormGroup;
+  rowData: Array<Object> = [];
+  showModel: Boolean = false;
 
   constructor(
     private userServiceService: UserServiceService,
@@ -29,27 +32,30 @@ export class UserComponent implements OnInit {
       cpf: ['', Validators.required],
     });
   };
-  rowData = [
-      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-      { make: "Ford", model: "F-Series", price: 33850, electric: false },
-      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-  ];
+  
+  defaultColDef= {
+    flex: 1,
+    minWidth: 120,
+    filter: true,
+    suppressSizeToFit: true
+  };
 
 
   // Column Definitions: Defines the columns to be displayed.
   colDefs: ColDef[] = [
-      { field: "make" },
-      { field: "model" },
-      { field: "price" },
-      { field: "electric" }
+      { field: "name", width: 200 },
+      { field: "email", width: 200 },
+      { field: "cpf", width: 200 },
   ];
 
 
   ngOnInit(){
+    this.updateUsersTable();
+  }
 
-    console.log("aaaaaaaaaaaaaaaaa")
+  updateUsersTable(){
     this.userServiceService.getUsers().subscribe((a) => {
-      console.log(a);
+      this.rowData = a;
     });
   }
 
@@ -59,6 +65,13 @@ export class UserComponent implements OnInit {
 
       this.userServiceService.postUser(this.userForm.value).subscribe((a) => {
         console.log(a);
+        this.showModel = !this.showModel;
+        this.userForm = this.fb.group({
+          name: ['', Validators.required],
+          email: ['', [Validators.required, Validators.email]],
+          cpf: ['', Validators.required],
+        });
+        this.updateUsersTable();
       });
     }
     

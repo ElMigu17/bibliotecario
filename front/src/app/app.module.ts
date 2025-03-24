@@ -5,7 +5,10 @@ import { UserComponent } from './components/user/user.component'
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
 
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @NgModule({
     declarations: [
@@ -14,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ],
     imports: [
         BrowserModule, 
-        ReactiveFormsModule,
+        ReactiveFormsModule, 
+        ModuleRegistry
     ],
     providers: [
         provideHttpClient()
