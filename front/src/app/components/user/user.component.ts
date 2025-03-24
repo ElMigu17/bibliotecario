@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import type { ColDef } from "ag-grid-community";
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import {UserServiceService} from "../../services/user/user-service.service"
+import { UserServiceService } from "../../services/user/user-service.service"
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import { CommonModule } from '@angular/common';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-user',
-  imports: [ReactiveFormsModule, AgGridAngular, CommonModule],
+  imports: [ReactiveFormsModule, AgGridAngular, CommonModule, NgxMaskDirective, NgxMaskPipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -24,42 +25,39 @@ export class UserComponent implements OnInit {
   constructor(
     private userServiceService: UserServiceService,
     private fb: FormBuilder
-  ){
-    
+  ) {
+
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       cpf: ['', Validators.required],
     });
   };
-  
-  defaultColDef= {
+
+  defaultColDef = {
     flex: 1,
     minWidth: 120,
     filter: true,
     suppressSizeToFit: true
   };
 
-
-  // Column Definitions: Defines the columns to be displayed.
   colDefs: ColDef[] = [
-      { field: "name", width: 200 },
-      { field: "email", width: 200 },
-      { field: "cpf", width: 200 },
+    { field: "name", width: 200 },
+    { field: "email", width: 200 },
+    { field: "cpf", width: 200 },
   ];
 
-
-  ngOnInit(){
+  ngOnInit() {
     this.updateUsersTable();
   }
 
-  updateUsersTable(){
-    this.userServiceService.getUsers().subscribe((a) => {
-      this.rowData = a;
+  updateUsersTable() {
+    this.userServiceService.getUsers().subscribe((users) => {
+      this.rowData = users;
     });
   }
 
-  onSubmit(): void{
+  onSubmit(): void {
     if (this.userForm.valid) {
 
       this.userServiceService.postUser(this.userForm.value).subscribe((a) => {
@@ -72,7 +70,7 @@ export class UserComponent implements OnInit {
         this.updateUsersTable();
       });
     }
-    
+
   }
 }
 

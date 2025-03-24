@@ -3,11 +3,13 @@ import { provideServerRendering } from '@angular/platform-server';
 import { provideServerRouting } from '@angular/ssr';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    provideServerRouting(serverRoutes)
+    provideServerRouting(serverRoutes),
+    provideNgxMask()
   ]
 };
 

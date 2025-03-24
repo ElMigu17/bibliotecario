@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserComponent } from './components/user/user.component'
 
-import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
 
 // Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -18,10 +19,11 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     imports: [
         BrowserModule, 
         ReactiveFormsModule, 
-        ModuleRegistry
+        ModuleRegistry,
+        NgxMaskDirective
     ],
     providers: [
-        provideHttpClient()
+        provideNgxMask({ /* opções de cfg */ })
     ],
     bootstrap: [AppComponent],
 })
