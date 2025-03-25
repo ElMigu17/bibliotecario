@@ -10,7 +10,7 @@
         </div>
         <div class="form-model">
             <h3>Criar novo usuário</h3>
-            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
                 <label for="name">Nome:</label> <br>
                 <input type="text" id="name" name="name" formControlName="name" value=""><br>
                 <label for="email">Email:</label> <br>
