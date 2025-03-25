@@ -24,7 +24,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   showModel: Boolean = false;
   isBrowser = false;
   showGrid = false;
-  editingUserId: string | null = null;
+  isEditing: boolean | null = false;
 
   defaultColDef = {
     flex: 1,
@@ -36,7 +36,11 @@ export class UserComponent implements OnInit, AfterViewInit {
   colDefs: ColDef[] = [
     { field: "name", width: 200 },
     { field: "email", width: 200 },
-    { field: "cpf", width: 200 },
+    { field: "cpf", width: 200,
+      valueFormatter: params => {
+        if (!params.value) return '';
+        return params.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      } },
     {
       headerName: "Actions",
       cellRenderer: TableButtonComponent,
@@ -87,17 +91,17 @@ export class UserComponent implements OnInit, AfterViewInit {
       email: user.email,
       cpf: user.cpf
     });
-    // Store the user ID if you need it for update
-    this.editingUserId = user.id;
+    
+    this.isEditing = true;
     this.showModel = true;
   }
   
 
   // Modify your onSubmit to handle both create and update
-  onSubmit(): void {
+  onSubmitForm(): void {
     if (this.userForm.valid) {
       const userData = this.userForm.value;
-      const observable = this.editingUserId 
+      const observable = this.isEditing 
         ? this.userServiceService.updateUser( userData)
         : this.userServiceService.postUser(userData);
   
@@ -106,7 +110,7 @@ export class UserComponent implements OnInit, AfterViewInit {
           this.showModel = false;
           this.setBlankUserForm();
           this.updateUsersTable();
-          this.editingUserId = null;
+          this.isEditing = false;
         },
         error: (err) => console.error('Error saving user', err)
       });
