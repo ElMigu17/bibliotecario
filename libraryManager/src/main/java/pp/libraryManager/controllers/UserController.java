@@ -28,8 +28,23 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity addOneUsers(@RequestBody UserDTO userDto) {
-        User user = this.userService.addOneBook(userDto);
+        User user = this.userService.addOneUser(userDto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+    @DeleteMapping("/users/{id}")
+    public void deleteOneUser(@PathVariable Integer id) {
+        this.userService.deleteById(id);
+    }
 
+    @PutMapping("/users")
+    public ResponseEntity editUser(@RequestBody UserDTO userDto) {
+        User user = null;
+        try {
+            user = this.userService.updateOneUser(userDto);
+        }
+        catch (IllegalArgumentException exception){
+            return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

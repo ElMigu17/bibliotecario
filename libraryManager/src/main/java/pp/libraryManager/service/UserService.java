@@ -40,7 +40,7 @@ public class UserService {
         return user.orElse(null);
     }
 
-    public User addOneBook(UserDTO userDto) {
+    public User addOneUser(UserDTO userDto) {
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -51,5 +51,15 @@ public class UserService {
 
     public void deleteById(Integer id) {
         this.userRepository.deleteById(id);
+    }
+
+    public User updateOneUser(UserDTO userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setCpf(userDto.getCpf());
+
+        return this.userRepository.save(user);
     }
 }
