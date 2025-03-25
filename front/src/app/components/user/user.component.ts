@@ -6,7 +6,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { UserServiceService } from "../../services/user/user-service.service";
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { User } from '../../model/user.model';
-import { TableButtonComponent } from '../../table-button/table-button.component';
+import { TableButtonComponent } from '../table-button/table-button.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -41,7 +41,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       headerName: "Actions",
       cellRenderer: TableButtonComponent,
       cellRendererParams: {
-        onEdit: this.editUser.bind(this),
+        onEdit: this.editRow.bind(this),
         onDelete: this.deleteUser.bind(this)
       },
       width: 200
@@ -80,7 +80,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     });
   }
 
-  editUser(user: any): void {
+  editRow(user: any): void {
     this.userForm.patchValue({
       id: user.id,
       name: user.name,
@@ -92,11 +92,11 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.showModel = true;
   }
   
+
   // Modify your onSubmit to handle both create and update
   onSubmit(): void {
     if (this.userForm.valid) {
       const userData = this.userForm.value;
-      debugger
       const observable = this.editingUserId 
         ? this.userServiceService.updateUser( userData)
         : this.userServiceService.postUser(userData);
