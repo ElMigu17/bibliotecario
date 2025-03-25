@@ -1,1 +1,26 @@
-<p>book works!</p>
+<div class="center-content">
+
+    <button class="button-class" (click)="showModel = !showModel">Criar novo livro</button>
+    @if (showGrid) {
+        <ag-grid-angular class="table" [columnDefs]="colDefs" [rowData]="rowData" [defaultColDef]="defaultColDef" />
+    }
+    <div *ngIf="showModel" class="background-form">
+        <div class="background-color" (click)="showModel = !showModel">
+
+        </div>
+        <div class="form-model">
+            <h3>Criar novo livro</h3>
+            <form [formGroup]="bookForm" (ngSubmit)="onSubmitForm()">
+                <label for="title">Titulo:</label> <br>
+                <input type="text" id="title" name="title" formControlName="title" value=""><br>
+                <label for="author">Autor:</label> <br>
+                <input type="text" id="author" name="author" formControlName="author" value=""><br>
+                <div class="form-buttons">
+                    <button class="button-class" type="submit" [disabled]="bookForm.invalid">Submit</button>
+                    <button class="button-class" (click)="showModel = !showModel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

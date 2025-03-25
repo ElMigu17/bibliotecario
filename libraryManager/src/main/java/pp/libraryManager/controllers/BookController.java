@@ -36,4 +36,21 @@ public class BookController {
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
+    @DeleteMapping("/books/{id}")
+    public void deleteOneUser(@PathVariable Integer id) {
+        this.bookService.deleteById(id);
+    }
+
+    @PutMapping("/books")
+    public ResponseEntity editUser(@RequestBody BookDTO bookDto) {
+        Book book = null;
+        try {
+            book = this.bookService.updateOneBook(bookDto);
+        }
+        catch (IllegalArgumentException exception){
+            return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
 }

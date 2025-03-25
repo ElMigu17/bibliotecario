@@ -1,18 +1,11 @@
 package pp.libraryManager.service;
 
 import org.springframework.stereotype.Service;
-import pp.libraryManager.DTOs.BookDTO;
-import pp.libraryManager.DTOs.BorrowDTO;
 import pp.libraryManager.DTOs.UserDTO;
 import pp.libraryManager.converters.UserConverter;
-import pp.libraryManager.entities.Book;
-import pp.libraryManager.entities.Borrow;
 import pp.libraryManager.entities.User;
-import pp.libraryManager.repositories.BookRepository;
-import pp.libraryManager.repositories.BorrowRepository;
 import pp.libraryManager.repositories.UserRepository;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

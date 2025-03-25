@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import pp.libraryManager.DTOs.BookDTO;
 import pp.libraryManager.converters.BookConverter;
 import pp.libraryManager.entities.Book;
-import pp.libraryManager.entities.User;
 import pp.libraryManager.repositories.BookRepository;
-import pp.libraryManager.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +14,9 @@ import java.util.Optional;
 public class BookService {
 
     private BookRepository bookRepository;
-    private final UserRepository userRepository;
 
-    public BookService(BookRepository bookRepository, UserRepository userRepository) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.userRepository = userRepository;
     }
 
     public List<BookDTO> findAllBook() {
@@ -49,6 +45,13 @@ public class BookService {
         this.bookRepository.deleteById(id);
     }
 
+    public Book updateOneBook(BookDTO bookDto) {
+        Book book = new Book();
+        book.setId(bookDto.getId());
+        book.setAuthor(bookDto.getAuthor());
+        book.setTitle(bookDto.getTitle());
 
+        return this.bookRepository.save(book);
+    }
 
 }
