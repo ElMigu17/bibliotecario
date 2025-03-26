@@ -34,5 +34,7 @@ public class Borrow {
     private Date borrow_date;
     @Column(name="deliver_date", nullable=false)
     private Date deliver_date;
+    @Column(name="delivered", nullable=false)
+    private Boolean delivered;
 
 }

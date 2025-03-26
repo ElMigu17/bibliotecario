@@ -1,0 +1,35 @@
+<div class="center-content">
+
+    <button class="button-class" (click)="showModel = !showModel">Novo emprestimo</button>
+    @if (showGrid) {
+        <ag-grid-angular class="table" [columnDefs]="colDefs" [rowData]="rowData" [defaultColDef]="defaultColDef" />
+    }
+    <div *ngIf="showModel" class="background-form">
+        <div class="background-color" (click)="showModel = !showModel">
+
+        </div>
+        <div class="form-model">
+            <h3>Novo emprestimo</h3>
+            <form [formGroup]="borrowForm" (ngSubmit)="onSubmitForm()">
+
+                <label>Usuario:</label>
+                <select class="select-borrow" formControlName="user_id" >
+                    <option *ngFor="let user of users" :key="user.id" [value]="user.id" >{{ user.name }}</option> <br />
+                </select><br/>
+                <label >Livro:</label>
+                <select class="select-borrow" formControlName="book_id">
+                    <option *ngFor="let book of books" :key="book.id" [value]="book.id">{{ book.title }}</option> <br />
+                </select><br/>
+
+                
+                <label for="deliver_date">Data de entrega:</label> <br>
+                <input type="date" id="deliver_date" name="deliver_date" formControlName="deliver_date" ><br>
+                <div class="form-buttons">
+                    <button class="button-class" type="submit" [disabled]="borrowForm.invalid">Submit</button>
+                    <button class="button-class" (click)="showModel = !showModel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

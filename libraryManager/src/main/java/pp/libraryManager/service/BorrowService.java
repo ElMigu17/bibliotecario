@@ -12,6 +12,7 @@ import pp.libraryManager.repositories.BorrowRepository;
 import pp.libraryManager.repositories.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,8 +22,10 @@ public class BorrowService {
     private UserService userService;
     private BookService bookService;
 
-    public BorrowService(BorrowRepository borrowRepository) {
+    public BorrowService(BorrowRepository borrowRepository, UserService userService, BookService bookService) {
         this.borrowRepository = borrowRepository;
+        this.userService = userService;
+        this.bookService = bookService;
     }
 
     public List<BorrowDTO> findAllBorrow() {
@@ -36,10 +39,11 @@ public class BorrowService {
 
     public Borrow addOneBorrow(BorrowDTO borrowDTO) {
         Borrow borrow = new Borrow();
-        borrow.setUser(userService.findOneUser(borrowDTO.getUser().getId()));
-        borrow.setBook(bookService.findOneBook(borrowDTO.getBook().getId()));
-        borrow.setBorrow_date(borrowDTO.getBorrow_date());
+        borrow.setUser(userService.findOneUser(borrowDTO.getUser_id()));
+        borrow.setBook(bookService.findOneBook(borrowDTO.getBook_id()));
+        borrow.setBorrow_date(new Date());
         borrow.setDeliver_date(borrowDTO.getDeliver_date());
+        borrow.setDelivered(false);
 
         return this.borrowRepository.save(borrow);
     }
@@ -48,4 +52,15 @@ public class BorrowService {
         this.borrowRepository.deleteById(id);
     }
 
+    public Borrow updateOneBorrow(BorrowDTO borrowDTO) {
+        Borrow borrow = new Borrow();
+        borrow.setId(borrowDTO.getId());
+        borrow.setUser(userService.findOneUser(borrowDTO.getUser_id()));
+        borrow.setBook(bookService.findOneBook(borrowDTO.getBook_id()));
+        borrow.setBorrow_date(borrowDTO.getBorrow_date());
+        borrow.setDeliver_date(borrowDTO.getDeliver_date());
+        borrow.setDelivered(borrowDTO.getDelivered());
+
+        return this.borrowRepository.save(borrow);
+    }
 }

@@ -12,9 +12,13 @@ import java.util.Date;
 public class BorrowDTO {
 
     private Integer id;
-    private UserDTO user;
-    private BookDTO book;
+    private Integer user_id;
+    private String user_name;
+    private Integer book_id;
+    private String book_title;
+    private String book_author;
     private Date borrow_date;
     private Date deliver_date;
+    private Boolean delivered;
 
 }
