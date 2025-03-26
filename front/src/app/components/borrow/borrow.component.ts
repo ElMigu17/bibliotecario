@@ -108,19 +108,12 @@ export class BorrowComponent implements OnInit, AfterViewInit {
   }
 
   editRow(borrow: any): void {
-    const borrowDate = new Date(borrow.deliver_date);
-    console.log(borrow)
-    
-    let month = borrowDate.getMonth() + 1;
-    let borrowDateFormated = borrowDate.getFullYear() + "-"
-      + (month <= 9 ? "0" + month : month) + "-"
-      + (borrowDate.getDate() <= 9 ? "0" + borrowDate.getDate() : borrowDate.getDate());
     
     this.borrowForm.patchValue({
       id: borrow.id,
       user_id: borrow.user_id,
       book_id: borrow.book_id,
-      deliver_date: borrowDateFormated,
+      deliver_date: this.formatDateZeros(borrow.deliver_date),
       borrow_date: borrow.borrow_date,
       delivered: borrow.delivered
 
@@ -173,6 +166,15 @@ export class BorrowComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  formatDateZeros(date: string) : string{
+    
+    const dateObject = new Date(date);    
+    let month = dateObject.getMonth() + 1;
+    return dateObject.getFullYear() + "-"
+      + (month <= 9 ? "0" + month : month) + "-"
+      + (dateObject.getDate() <= 9 ? "0" + dateObject.getDate() : dateObject.getDate());
   }
 }
 
