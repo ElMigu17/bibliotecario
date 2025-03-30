@@ -55,7 +55,7 @@ export class BookComponent implements OnInit, AfterViewInit {
     this.bookForm = this.fb.group({
       id: [''],
       title: ['', [Validators.required]],
-      author: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ ]+')]],
+      author: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ \.]+')]],
     });
 
   };
