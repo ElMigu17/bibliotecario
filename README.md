@@ -22,6 +22,12 @@ O **Bibliotecário** é um sistema desenvolvido para auxiliar bibliotecas no ger
 - **front/**: Contém o código-fonte do front-end.
 - **libraryManager/**: Contém o código-fonte do back-end.
 
+## Telas
+
+![alt tabela de emprestimos](./images-readme/image1.png)
+![alt formulario de emprestimos](./images-readme/image2.png)
+
+
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT. 
